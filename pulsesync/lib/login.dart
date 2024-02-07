@@ -1,14 +1,16 @@
 //import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:pulsesync/reset.dart';
 import 'package:pulsesync/signup.dart';
 import 'package:pulsesync/home.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key, required Null Function() showRegisterPage})
-      : super(key: key);
+  const LoginScreen({
+    Key? key,
+    required Null Function() showRegisterPage,
+  }) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -21,7 +23,19 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> logIn() async {
     try {
-      Get.to(const HomePage());
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+      User? user = FirebaseAuth.instance.currentUser!;
+      if (user.email != null) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomePage(),
+            ),
+            (route) => false);
+      }
     } catch (error) {
       // Handle login error
       if (kDebugMode) {
@@ -65,13 +79,13 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           Container(
             padding: const EdgeInsets.only(left: 35, top: 150),
-            child: Column(
+            child: const Column(
               children: [
-                Image.asset(
-                  "android/assets/image/logologin.png",
-                  width: 300, // Adjust the width as needed
-                  height: 200, // Adjust the height as needed
-                ),
+                // Image.asset(
+                //   "android/assets/image/logologin.png",
+                //   width: 300, // Adjust the width as needed
+                //   height: 200, // Adjust the height as needed
+                // ),
               ],
             ),
           ),

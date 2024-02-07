@@ -1,5 +1,6 @@
+import 'package:flutter/foundation.dart';
+import 'package:pulsesync/home.dart';
 import 'package:pulsesync/login.dart';
-import 'package:pulsesync/splash.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,12 @@ class _MyRegisterState extends State<MyRegister> {
         password: password,
       );
       User? user = FirebaseAuth.instance.currentUser;
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const HomePage(),
+          ),
+          (route) => false);
       await FirebaseFirestore.instance
           .collection("users")
           .doc(user?.email)
@@ -48,7 +55,9 @@ class _MyRegisterState extends State<MyRegister> {
       reg = 'success';
     } catch (error) {
       reg = 'not success';
-      print('Login Error: $error');
+      if (kDebugMode) {
+        print('Login Error: $error');
+      }
     }
   }
 
@@ -197,10 +206,16 @@ class _MyRegisterState extends State<MyRegister> {
                         children: [
                           TextButton(
                               onPressed: () {
-                                Navigator.pushNamed(context, 'login');
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LoginScreen(
+                                              showRegisterPage: () {},
+                                            )),
+                                    (route) => false);
                               },
                               child: const Text(
-                                'Sign Up',
+                                'Log In?',
                                 style: TextStyle(
                                     color: Colors.white70,
                                     fontSize: 27,
