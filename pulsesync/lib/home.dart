@@ -101,15 +101,6 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
-                width: screenWidth,
-                height: 74 * fem,
-                child: Image.asset(
-                  'assets/app-design-/images/auto-group-jucv.png',
-                  width: screenWidth,
-                  height: 74 * fem,
-                ),
-              ),
             ],
           ),
         ),
