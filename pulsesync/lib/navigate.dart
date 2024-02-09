@@ -5,7 +5,7 @@ import 'package:pulsesync/newappointment.dart';
 import 'package:pulsesync/profile.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -17,7 +17,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
 
   static final List<Widget> _widgetoptions = <Widget>[
-    const HomePage(),
+    HomePage(),
     const Alerts(),
     const NewAppointments(),
     const Profile(),
@@ -40,8 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: _widgetoptions[_currentIndex],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor:
-            Colors.transparent, // Set background color to be transparent
+        backgroundColor: Colors.transparent,
         currentIndex: _currentIndex,
         iconSize: 30,
         items: const [
