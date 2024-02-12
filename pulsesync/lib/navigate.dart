@@ -17,7 +17,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
 
   static final List<Widget> _widgetoptions = <Widget>[
-    HomePage(),
+    const HomePage(),
     const Alerts(),
     const NewAppointments(),
     const Profile(),

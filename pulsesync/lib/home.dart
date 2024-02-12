@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pulsesync/alerts.dart';
+import 'package:pulsesync/newappointment.dart';
+import 'package:pulsesync/profile.dart';
 import 'package:pulsesync/utils.dart';
 
 class HomePage extends StatelessWidget {
@@ -114,27 +117,42 @@ class HomePage extends StatelessWidget {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            backgroundColor: Color(0xff191970),
+            backgroundColor: Color(0xff6283bb),
             label: "Home",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.notifications_active),
-            backgroundColor: Color(0xff191970),
+            backgroundColor: Color(0xff6283bb),
             label: "Alerts",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.app_registration_sharp),
-            backgroundColor: Color(0xff191970),
+            backgroundColor: Color(0xff6283bb),
             label: "Appointment",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            backgroundColor: Color(0xff191970),
+            backgroundColor: Color(0xff6283bb),
             label: "Profile",
           ),
         ],
         onTap: (index) {
-          // Handle navigation here
+          if (index == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Alerts()),
+            );
+          } else if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const NewAppointments()),
+            );
+          } else if (index == 3) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Profile()),
+            );
+          }
         },
       ),
     );
