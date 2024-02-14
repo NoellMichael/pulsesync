@@ -1,115 +1,119 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pulsesync/alerts.dart';
 import 'package:pulsesync/newappointment.dart';
 import 'package:pulsesync/profile.dart';
-import 'package:pulsesync/utils.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    double baseWidth = 430;
-    double screenWidth = MediaQuery.of(context).size.width;
-    double fem = screenWidth / baseWidth;
-    double ffem = fem * 0.97;
+  _HomePageState createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage> {
+  late Stream<DocumentSnapshot> vitalsStream;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Replace 'your_collection' with the actual collection name in your Firestore
+    vitalsStream = FirebaseFirestore.instance
+        .collection('your_collection')
+        .doc('vitals_doc')
+        .snapshots();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: SingleChildScrollView(
-        child: SizedBox(
-          width: double.infinity,
-          child: Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: const Color(0xffffffff),
-              borderRadius: BorderRadius.circular(30 * fem),
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0x3f000000),
-                  offset: Offset(0 * fem, 4 * fem),
-                  blurRadius: 2 * fem,
-                ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20 * fem,
-                    vertical: 171 * fem,
-                  ),
-                  width: double.infinity,
-                  height: 858 * fem,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 24.73 * fem,
-                      vertical: 16.49 * fem,
-                    ),
-                    width: double.infinity,
-                    height: 154.55 * fem,
-                    decoration: BoxDecoration(
-                      color: const Color(0xffe4e8ee),
-                      borderRadius: BorderRadius.circular(24.7282905579 * fem),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(bottom: 4.88 * fem),
-                          child: Text(
-                            'VITALS MONITORING',
-                            style: safeGoogleFont(
-                              'Be Vietnam Pro',
-                              fontSize: 18.5462188721 * ffem,
-                              fontWeight: FontWeight.w700,
-                              height: 1.3333332648 * ffem / fem,
-                              letterSpacing: 0.12879318 * fem,
-                              color: const Color(0xff151921),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(bottom: 18.11 * fem),
-                          constraints: BoxConstraints(
-                            maxWidth: 220 * fem,
-                          ),
-                          child: Text(
-                            'Check active appointments and get ready for the meeting.',
-                            style: safeGoogleFont(
-                              'Lato',
-                              fontSize: 14.4248371124 * ffem,
-                              fontWeight: FontWeight.w400,
-                              height: 1.3571428666 * ffem / fem,
-                              color: const Color(0xff151921),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(right: 0.48 * fem),
-                          constraints: BoxConstraints(
-                            maxWidth: 127 * fem,
-                          ),
-                          child: Text(
-                            'NO APPOINTMENTS IN 3 DAYS.',
-                            style: safeGoogleFont(
-                              'Be Vietnam Pro',
-                              fontSize: 12.3641452789 * ffem,
-                              fontWeight: FontWeight.w700,
-                              height: 1.3333333333 * ffem / fem,
-                              color: const Color(0xff151921),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+      appBar: AppBar(
+        title: const Text(
+          'Vitals Monitoring',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
+      ),
+      body: StreamBuilder<DocumentSnapshot>(
+        stream: vitalsStream,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+
+          // Extract vitals data from snapshot
+          Map<String, dynamic>? vitalsData =
+              snapshot.data?.data() as Map<String, dynamic>?;
+
+          // Extract other personal details from Firestore
+          String registrationNumber = vitalsData?['registration_number'] ?? '';
+          int age = vitalsData?['age'] ?? 0;
+          String phoneNumber = vitalsData?['phone_number'] ?? '';
+
+          // Extract live vitals data
+          double temperature = vitalsData?['temperature'] ?? 0.0;
+          int heartRate = vitalsData?['heart_rate'] ?? 0;
+
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Live Vitals Box
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.blue[200],
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Live Vitals',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8),
+                      Text('Temperature: $temperature °C'),
+                      Text('Heart Rate: $heartRate BPM'),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+
+                // Personal Details
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Personal Details',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8),
+                      Text('Registration Number: $registrationNumber'),
+                      Text('Age: $age'),
+                      Text('Phone Number: $phoneNumber'),
+                      // Add more details as needed
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.transparent,
@@ -158,4 +162,10 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+}
+
+void main() {
+  runApp(const MaterialApp(
+    home: HomePage(),
+  ));
 }

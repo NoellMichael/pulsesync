@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'package:pulsesync/navigate.dart';
+import 'package:pulsesync/login.dart'; // Import your login screen file
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
@@ -83,31 +83,37 @@ class Profile extends StatelessWidget {
 
               // Medical History
               buildSettingsItem(
-                iconPath: 'assets/app-design-/images/frame-18339-G9K.png',
                 title: 'Medical History',
                 ffem: ffem, // Pass ffem to the function
               ),
 
               // Frequently Asked Questions
               buildSettingsItem(
-                iconPath: 'assets/app-design-/images/frame-18339.png',
                 title: 'Frequently Asked Questions',
                 ffem: ffem, // Pass ffem to the function
               ),
 
               // Edit Profile
               buildSettingsItem(
-                iconPath: 'assets/app-design-/images/frame-18339-jgy.png',
                 title: 'Edit Profile',
                 ffem: ffem, // Pass ffem to the function
               ),
 
               // Logout
               buildSettingsItem(
-                iconPath: 'assets/app-design-/images/icon-izH.png',
                 title: 'Logout',
                 textColor: const Color(0xffff0000),
                 ffem: ffem, // Pass ffem to the function
+                onTap: () {
+                  // Add logic to logout and navigate to LoginScreen
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => LoginScreen(
+                              showRegisterPage: () {},
+                            )),
+                  );
+                },
               ),
 
               // Need Help
@@ -163,15 +169,15 @@ class Profile extends StatelessWidget {
   }
 
   Widget buildSettingsItem({
-    required String iconPath,
     required String title,
     Color textColor = const Color(0xff151921),
     required double ffem, // Add ffem as a parameter
+    VoidCallback? onTap, // Add onTap as a parameter
   }) {
     return Column(
       children: [
         TextButton(
-          onPressed: () {},
+          onPressed: onTap, // Use onTap here
           style: TextButton.styleFrom(
             padding: EdgeInsets.zero,
           ),
@@ -182,14 +188,6 @@ class Profile extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  margin: EdgeInsets.only(right: 12.27 * ffem), // Use ffem here
-                  child: Image.asset(
-                    iconPath,
-                    width: 14.39 * ffem, // Use ffem here
-                    height: 14.64 * ffem, // Use ffem here
-                  ),
-                ),
                 Text(
                   title,
                   style: TextStyle(
@@ -214,11 +212,6 @@ class Profile extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       height: 0.81 * ffem, // Use ffem here
-      child: Image.asset(
-        'assets/app-design-/images/line-3.png',
-        width: 305.76 * ffem, // Use ffem here
-        height: 0.81 * ffem, // Use ffem here
-      ),
     );
   }
 }
