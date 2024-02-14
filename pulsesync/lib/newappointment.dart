@@ -1,76 +1,183 @@
 import 'package:flutter/material.dart';
-import 'package:pulsesync/utils.dart';
+import 'package:pulsesync/alerts.dart';
+import 'package:pulsesync/profile.dart';
 
-class NewAppointments extends StatelessWidget {
-  const NewAppointments({super.key});
+class BookAppointmentPage extends StatefulWidget {
+  const BookAppointmentPage({Key? key}) : super(key: key);
+
+  @override
+  _BookAppointmentPageState createState() => _BookAppointmentPageState();
+}
+
+class _BookAppointmentPageState extends State<BookAppointmentPage> {
+  String dropdownValue = 'A'; // Initialize with the first doctor
+  DateTime selectedDate = DateTime.now();
+  TimeOfDay selectedTime = TimeOfDay.now();
+  TextEditingController concernsController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    double baseWidth = 429;
-    double fem = MediaQuery.of(context).size.width / baseWidth;
-    double ffem = fem * 0.97;
-    return SizedBox(
-      width: double.infinity,
-      child: Container(
-        // myappointmentcompleted4xD (1:6105)
-        padding: EdgeInsets.fromLTRB(0 * fem, 46.5 * fem, 0 * fem, 0 * fem),
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: const Color(0xffffffff),
-          borderRadius: BorderRadius.circular(20 * fem),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Book Appointment'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              // navbarZty (208:3127)
-              margin:
-                  EdgeInsets.fromLTRB(39 * fem, 0 * fem, 22 * fem, 771.5 * fem),
-              width: double.infinity,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    // myappointmentsHKB (208:3129)
-                    margin: EdgeInsets.fromLTRB(
-                        0 * fem, 1 * fem, 122 * fem, 0 * fem),
-                    child: Text(
-                      'My Appointments',
-                      style: safeGoogleFont(
-                        'Inter',
-                        fontSize: 24 * ffem,
-                        fontWeight: FontWeight.w600,
-                        height: 1.2125 * ffem / fem,
-                        color: const Color(0xff242424),
-                      ),
-                    ),
+            // Title for selecting doctor's name
+            const Text(
+              'Select Doctor\'s Name:',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+
+            // Dropdown for selecting doctor's name
+            Center(
+              child: DropdownButton<String>(
+                value: dropdownValue,
+                icon: const Icon(Icons.arrow_drop_down),
+                style: const TextStyle(color: Colors.black),
+                underline: Container(
+                  height: 2,
+                  color: Colors.black,
+                ),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    dropdownValue = newValue!; // Set to the selected doctor
+                  });
+                },
+                items: const [
+                  DropdownMenuItem<String>(
+                    value: 'A',
+                    child: Text('Doctor A'),
                   ),
-                  SizedBox(
-                    // backyho (208:3130)
-                    width: 40 * fem,
-                    height: 40 * fem,
-                    child: Image.asset(
-                      'assets/app-design-/images/back-Heu.png',
-                      width: 40 * fem,
-                      height: 40 * fem,
-                    ),
+                  DropdownMenuItem<String>(
+                    value: 'B',
+                    child: Text('Doctor B'),
+                  ),
+                  DropdownMenuItem<String>(
+                    value: 'C',
+                    child: Text('Doctor C'),
+                  ),
+                  DropdownMenuItem<String>(
+                    value: 'D',
+                    child: Text('Doctor D'),
                   ),
                 ],
               ),
             ),
-            SizedBox(
-              // tabmenusearchuLZ (208:3141)
-              width: 430 * fem,
-              height: 74 * fem,
-              child: Image.asset(
-                'assets/app-design-/images/tab-menu-search-24D.png',
-                width: 430 * fem,
-                height: 74 * fem,
+            const SizedBox(height: 16),
+
+            // Time Picker
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Select Time:'),
+                const SizedBox(width: 8),
+                ElevatedButton(
+                  onPressed: () async {
+                    TimeOfDay? pickedTime = await showTimePicker(
+                      context: context,
+                      initialTime: selectedTime,
+                    );
+                    if (pickedTime != null && pickedTime != selectedTime) {
+                      setState(() {
+                        selectedTime = pickedTime;
+                      });
+                    }
+                  },
+                  child: Text(selectedTime.format(context)),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+
+            // Boxed Text Field for concerns and illness
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(10),
               ),
+              child: TextFormField(
+                controller: concernsController,
+                maxLines: 5,
+                decoration: const InputDecoration(
+                  labelText: 'Enter Your Concerns and Illness',
+                  border: InputBorder.none,
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            // Button to submit appointment
+            ElevatedButton(
+              onPressed: () {
+                // Handle appointment submission logic here
+                // You can access selectedDoctor, selectedDate, selectedTime, and concernsController.text
+                // to save the appointment details
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.black, // Use the color of the navigation bar
+              ),
+              child: const Text('Book Appointment'),
             ),
           ],
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.black, // Change the color of the navigation bar
+        currentIndex: 2, // Set to the index of the current page
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            backgroundColor: Color(0xff6283bb),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications_active),
+            backgroundColor: Color(0xff6283bb),
+            label: 'Alerts',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.app_registration_sharp),
+            backgroundColor: Color(0xff6283bb),
+            label: 'Appointment',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            backgroundColor: Color(0xff6283bb),
+            label: 'Profile',
+          ),
+        ],
+        onTap: (index) {
+          // Handle navigation to other pages
+          if (index == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Alerts()),
+            );
+          } else if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const BookAppointmentPage()),
+            );
+          } else if (index == 3) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Profile()),
+            );
+          }
+        },
+      ),
     );
   }
+}
+
+void main() {
+  runApp(const MaterialApp(
+    home: BookAppointmentPage(),
+  ));
 }

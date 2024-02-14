@@ -145,7 +145,8 @@ class HomePage extends StatelessWidget {
           } else if (index == 2) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const NewAppointments()),
+              MaterialPageRoute(
+                  builder: (context) => const BookAppointmentPage()),
             );
           } else if (index == 3) {
             Navigator.push(

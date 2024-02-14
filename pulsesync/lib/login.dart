@@ -74,18 +74,21 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff191970),
+      backgroundColor: Color.fromARGB(255, 89, 107, 137),
       body: Stack(
         children: [
           Container(
             padding: const EdgeInsets.only(left: 35, top: 150),
-            child: const Column(
+            child: Column(
               children: [
-                // Image.asset(
-                //   "android/assets/image/logologin.png",
-                //   width: 300, // Adjust the width as needed
-                //   height: 200, // Adjust the height as needed
-                // ),
+                Padding(
+                  padding: EdgeInsets.only(left: 20.0),
+                  child: Image.asset(
+                    "assets/app-design-/images/group.png",
+                    width: 300, // Adjust the width as needed
+                    height: 200,
+                  ), // Adjust the height as needed
+                ),
               ],
             ),
           ),
@@ -102,7 +105,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         TextField(
                           controller: _emailController,
-                          style: const TextStyle(color: Colors.black),
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 14.0), // Adjusted font size
                           decoration: InputDecoration(
                             fillColor: Colors.white70,
                             filled: true,
@@ -114,10 +119,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 15),
+                        const SizedBox(height: 13),
                         TextField(
                           controller: _passwordController,
-                          style: const TextStyle(),
+                          style: const TextStyle(
+                              fontSize: 14.0), // Adjusted font size
                           obscureText: true,
                           decoration: InputDecoration(
                             fillColor: Colors.white70,
@@ -130,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 40),
+                        const SizedBox(height: 30),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -149,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 'Log in',
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 20,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -170,8 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 'Sign up',
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  fontSize: 20,
+                                  fontSize: 15,
                                   color: Colors.white70,
                                 ),
                               ),
@@ -186,9 +191,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: const Text(
                                 'Forgot Password?',
                                 style: TextStyle(
-                                  decoration: TextDecoration.underline,
                                   color: Colors.white70,
-                                  fontSize: 20,
+                                  fontSize: 15,
                                 ),
                               ),
                             ),

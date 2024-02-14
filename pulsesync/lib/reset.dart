@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ResetPasswordPage extends StatefulWidget {
-  const ResetPasswordPage({super.key});
+  const ResetPasswordPage({Key? key});
 
   @override
   _ResetPasswordPageState createState() => _ResetPasswordPageState();
@@ -29,79 +29,102 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff191970),
+      backgroundColor: const Color.fromARGB(255, 89, 107, 137),
       appBar: AppBar(
-        backgroundColor: const Color(0xff191970),
-        title: const Text('Reset Password'),
+        backgroundColor: const Color.fromARGB(255, 89, 107, 137),
+        title: const Text(
+          'Reset Password',
+          style: TextStyle(fontSize: 16.0),
+        ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Enter your new password:',
-              style: TextStyle(fontSize: 16.0, color: Colors.white),
-            ),
-            const SizedBox(height: 16.0),
-            TextField(
-              controller: newPasswordController,
-              style: const TextStyle(
-                color: Colors.white,
-              ), // Set the text color to white
-              decoration: const InputDecoration(
-                fillColor: Colors.white70,
-                filled: true,
-                labelText: 'New Password',
-                labelStyle: TextStyle(
-                  color: Colors.black,
-                ), // Set the label text color to white
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.black, // Set the border color to white
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/app-design-/images/secure-login.png',
+                width: 230.0, // Adjust the width as needed
+                height: 230.0, // Adjust the height as needed
+              ),
+              const SizedBox(height: 16.0),
+              const Text(
+                'Enter your new password:',
+                style: TextStyle(fontSize: 12.0, color: Colors.white),
+              ),
+              const SizedBox(height: 12.0),
+              TextField(
+                controller: newPasswordController,
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
+                decoration: const InputDecoration(
+                  fillColor: Colors.white70,
+                  filled: true,
+                  labelText: 'New Password',
+                  labelStyle: TextStyle(
+                    fontSize: 12.0,
+                    color: Colors.black,
+                  ),
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 10.0, // Adjust the horizontal padding as needed
+                  ),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.black,
+                    ),
                   ),
                 ),
+                obscureText: true,
+                maxLines: 1, // Set the maximum number of lines
+                maxLength: 10, // Set the maximum length of characters
               ),
-              obscureText: true,
-            ),
-            const SizedBox(height: 16.0),
-            TextField(
-              controller: confirmPasswordController,
-              style: const TextStyle(
-                color: Colors.white,
-              ), // Set the text color to white
-              decoration: const InputDecoration(
-                fillColor: Colors.white70,
-                filled: true,
-                labelText: 'Confirm Password',
-                labelStyle: TextStyle(
-                  color: Colors.black,
-                ), // Set the label text color to white
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.white, // Set the border color to white
+              const SizedBox(height: 12.0),
+              TextField(
+                controller: confirmPasswordController,
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
+                decoration: const InputDecoration(
+                  fillColor: Colors.white70,
+                  filled: true,
+                  labelText: 'Confirm Password',
+                  labelStyle: TextStyle(
+                    fontSize: 12.0,
+                    color: Colors.black,
+                  ),
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 10.0, // Adjust the horizontal padding as needed
+                  ),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.white,
+                    ),
                   ),
                 ),
+                obscureText: true,
+                maxLines: 1, // Set the maximum number of lines
+                maxLength: 10, // Set the maximum length of characters
               ),
-              obscureText: true,
-            ),
-            const SizedBox(height: 16.0),
-            Center(
-              child: ElevatedButton(
+              const SizedBox(height: 16.0),
+              ElevatedButton(
                 onPressed: resetPassword,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white70,
-                  primary: Colors.black, // Set the text color to black
+                  backgroundColor: const Color.fromARGB(232, 182, 191, 199),
+                  primary: Colors.black,
                 ),
                 child: const Text(
                   'Reset Password',
                   style: TextStyle(
-                    color: Colors.black, // Set the text color to black
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15.0,
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
